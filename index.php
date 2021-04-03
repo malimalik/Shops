@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (isset($_SESSION["userName"]))
+{
+    header("location: home.html");
+}
 ?>
 
 <html>
@@ -44,15 +49,15 @@
     $(document).ready(function() {
         $('#login').click(function() {
             // Storing the username and password in a local variable
-            let username = $('#username').val();
-            let password = $('#username').val();
+            let userName = $('#username').val();
+            let password = $('#password').val();
             // If the username and the password are entered
-            if ($.trim(username).length > 0 && $.trim(username).length > 0) {
+            if ($.trim(username).length > 0 && $.trim(password).length > 0) {
                 $.ajax({
                     url: "login.php",
                     method: "POST",
                     data: {
-                        userName: username,
+                        username: userName,
                         password: password
                     },
                     cache: true,
@@ -63,12 +68,7 @@
                         if (data) {
                             $("body").load("home.html").hide().fadeIn(1500);
                         } else {
-                            let options = {
-                                distance: '40',
-                                direction: 'left',
-                                times: '3'
 
-                            }
                             $('#login').val("Login");
                             $('#error').html("Username or Password is not valid!");
                         }
@@ -77,6 +77,7 @@
                 });
 
             } else {
+                return false;
 
             }
         });
